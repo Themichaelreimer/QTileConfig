@@ -3,7 +3,7 @@ cp -r ~/.config/rofi .
 cp -r ~/.config/flameshot .
 cp -r ~/.config/kitty .
 cp -r ~/.config/qtile .
-cp /opt/requirements.txt .
-cp /opt/entry.sh .
+cp /opt/qtile/requirements.txt .
+cp /opt/qtile/entry.sh .
 cp /usr/share/xsessions/qtile.desktop .
 echo "Done!"
