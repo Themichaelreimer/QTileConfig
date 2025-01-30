@@ -1,0 +1,22 @@
+enabled_layouts splits
+font_family CaskaydiaCoveNerdFont
+
+# Maps
+map ctrl_shift+5 load_config_file
+map ctrl+h launch --location=hsplit
+map ctrl+v launch --location=vsplit
+
+copy_on_select no
+strip_trailing_spaces always
+
+# tab_bar
+tab_bar_edge top
+tab_bar_style powerline
+
+# Default applications
+shell /usr/bin/fish
+editor /usr/bin/vim
+
+# Window display
+background_opacity 0.7
+hide_window_decorations yes
