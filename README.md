@@ -1,3 +1,5 @@
 # Mike's QTile setup
 
-Clone to ~/.config/qtile and run install.sh
+Run install.sh.
+Assumes you're on an OS with `apt` installed, but could be easily adapted
+to whatever package manager you have available.
