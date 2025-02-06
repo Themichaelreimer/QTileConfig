@@ -28,11 +28,13 @@ from libqtile import bar, layout, qtile, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
+import os
 
 mod = "mod4"
 terminal = "/usr/bin/kitty"
 browser = "/usr/bin/firefox"
 files = "/usr/bin/nautilus -w"
+wallpaper = os.environ.get("WALLPAPER", f"{os.environ.get('HOME')}/.wallpaper")
 
 #@hook.subscribe.startup
 def run_every_startup():
@@ -103,6 +105,9 @@ keys = [
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl -- set-sink-volume 0 +10%"), desc="Raise volume"),
+    Key([], "XF86AudioLowerVolume", lazy.spawn("pactl -- set-sink-volume 0 -10%"), desc="Lower volume"),
+    Key([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl s +10%"), desc="Raise brightness"),
+    Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl s 10%-"), desc="Lower brightness"),
     Key([], "print", lazy.spawn("flameshot gui"), desc="Screenshot"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 ]
@@ -170,6 +175,7 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
+BLACK = "ffffff"
 RED = "ff3333"
 DARKEST_BLUE = "0f1419"
 DARK_BLUE = "243340"
@@ -201,6 +207,7 @@ def get_bar():
             widget.Clock(format="%A %B %d %Y %I:%M:%S %p"),
             widget.Spacer(),      
             widget.Systray(hide_crash=True),
+            widget.Battery(format="[{percent:2.0%}] [{hour:d}:{min:02d} Remaining]"),
             widget.PulseVolume(
                 fmt="Vol:{}",
                 volume_app="pavucontrol",
@@ -220,7 +227,7 @@ def get_bar():
 
 screens = [
     Screen(
-        wallpaper="/usr/share/backgrounds/ubuntu-wallpaper-d.png",
+        wallpaper=wallpaper,
         wallpaper_mode="fill",
         top=get_bar(),
         # You can uncomment this variable if you see that on X11 floating resize/moving is laggy
@@ -229,13 +236,13 @@ screens = [
         # x11_drag_polling_rate = 60,
     ),
     Screen(
-            wallpaper="/usr/share/backgrounds/ubuntu-wallpaper-d.png",
+            wallpaper=wallpaper,
             wallpaper_mode="fill",
             y=1600,
             top=get_bar()
        ),
     Screen(
-            wallpaper="/usr/share/backgrounds/ubuntu-wallpaper-d.png",
+            wallpaper=wallpaper,
             wallpaper_mode="fill",
             top=get_bar()
        ),

@@ -1,5 +1,7 @@
 cairocffi==1.7.1
 cffi==1.17.1
+pulsectl==24.11.0
+pulsectl-asyncio==1.2.2
 pycparser==2.22
 qtile==0.30.0
 qtile-extras==0.30.0
