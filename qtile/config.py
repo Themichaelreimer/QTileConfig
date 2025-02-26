@@ -28,13 +28,12 @@ from libqtile import bar, layout, qtile, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-import os
 
 mod = "mod4"
 terminal = "/usr/bin/kitty"
 browser = "/usr/bin/firefox"
 files = "/usr/bin/nautilus -w"
-wallpaper = os.environ.get("WALLPAPER", f"{os.environ.get('HOME')}/.wallpaper")
+WALLPAPER = os.environ.get("WALLPAPER", f"{os.environ.get('HOME')}/.wallpaper")
 
 #@hook.subscribe.startup
 def run_every_startup():
@@ -88,6 +87,7 @@ keys = [
         desc="Toggle between split and unsplit sides of stack",
     ),
     Key([mod], "Return", lazy.spawn("rofi -show drun"), desc="Launch Rofi"),
+    #Key([mod, "shift"], "Return", lazy.spawn("rofi -show run"), desc="Run command with Rofi"),
     Key([mod], "t", lazy.spawn(terminal), desc="Launch terminal"),
     Key([mod], "b", lazy.spawn(browser), desc="Launch browser"),
     Key([mod], "f", lazy.spawn(files), desc="Show files"),
@@ -127,6 +127,7 @@ for vt in range(1, 8):
 
 
 groups = [Group(i) for i in "1234567890"]
+groups[-1].label = "λ:Terminal"
 
 for i in groups:
     keys.extend(
@@ -153,7 +154,7 @@ for i in groups:
     )
 
 layouts = [
-    layout.Columns(border_focus_stack=["#faa968", "#f85525"], border_width=2),
+    layout.Columns(margin=2, border_focus=["#aaaaaa", "#333333"], border_normal=["555555","333333"], border_width=2),
     layout.Max(),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
@@ -175,7 +176,6 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
-BLACK = "ffffff"
 RED = "ff3333"
 DARKEST_BLUE = "0f1419"
 DARK_BLUE = "243340"
@@ -218,16 +218,16 @@ def get_bar():
         ],
         24,
         opacity=0.8,
-        background="0f1419",
+        background="111111",
         highlight_color="399ee6",
         reserve=True,
         border_width=[0, 0, 0, 0],  # Draw top and bottom borders
-        border_color=["399ee6","0f1419","0f1419","399ee6",]  # Borders are magenta
+        border_color=["eeeeee","dddddd","cccccc","bbbbbb",]  # Borders are magenta
     ) 
 
 screens = [
     Screen(
-        wallpaper=wallpaper,
+        wallpaper=WALLPAPER,
         wallpaper_mode="fill",
         top=get_bar(),
         # You can uncomment this variable if you see that on X11 floating resize/moving is laggy
@@ -236,13 +236,13 @@ screens = [
         # x11_drag_polling_rate = 60,
     ),
     Screen(
-            wallpaper=wallpaper,
+            wallpaper=WALLPAPER,
             wallpaper_mode="fill",
             y=1600,
             top=get_bar()
        ),
     Screen(
-            wallpaper=wallpaper,
+            wallpaper=WALLPAPER,
             wallpaper_mode="fill",
             top=get_bar()
        ),
@@ -258,7 +258,7 @@ mouse = [
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: list
-follow_mouse_focus = True
+follow_mouse_focus = False
 bring_front_click = False
 floats_kept_above = True
 cursor_warp = False
