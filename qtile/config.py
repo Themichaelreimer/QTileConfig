@@ -28,15 +28,14 @@ from libqtile import bar, layout, qtile, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-import os
 
 mod = "mod4"
 terminal = "/usr/bin/kitty"
 browser = "/usr/bin/firefox"
 files = "/usr/bin/nautilus -w"
-wallpaper = os.environ.get("WALLPAPER", f"{os.environ.get('HOME')}/.wallpaper")
+WALLPAPER = os.environ.get("WALLPAPER", f"{os.environ.get('HOME')}/.wallpaper")
 
-o@hook.subscribe.startup
+#@hook.subscribe.startup
 def run_every_startup():
     set_screen_layout()
 
@@ -177,7 +176,6 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
-BLACK = "ffffff"
 RED = "ff3333"
 DARKEST_BLUE = "0f1419"
 DARK_BLUE = "243340"
@@ -220,7 +218,7 @@ def get_bar():
         ],
         24,
         opacity=0.8,
-        background="0f1419",
+        background="111111",
         highlight_color="399ee6",
         reserve=True,
         border_width=[0, 0, 0, 0],  # Draw top and bottom borders
@@ -229,7 +227,7 @@ def get_bar():
 
 screens = [
     Screen(
-        wallpaper=wallpaper,
+        wallpaper=WALLPAPER,
         wallpaper_mode="fill",
         top=get_bar(),
         # You can uncomment this variable if you see that on X11 floating resize/moving is laggy
@@ -238,13 +236,13 @@ screens = [
         # x11_drag_polling_rate = 60,
     ),
     Screen(
-            wallpaper=wallpaper,
+            wallpaper=WALLPAPER,
             wallpaper_mode="fill",
             y=1600,
             top=get_bar()
        ),
     Screen(
-            wallpaper=wallpaper,
+            wallpaper=WALLPAPER,
             wallpaper_mode="fill",
             top=get_bar()
        ),
