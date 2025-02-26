@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Install prerequisites
-#sudo apt install python3 python3-pip3 python3-venv kitty rofi flameshot
+sudo apt install python3 python3-pip python3-venv kitty rofi flameshot picom
 
 # Copy files to necessary places
 # qtile itself is installed to /opt/qtile; it's config is installed to ~/.config
