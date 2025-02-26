@@ -14,6 +14,7 @@ sudo cp -r kitty/ ~/.config/
 sudo cp -r rofi/ ~/.config/
 sudo cp -r qtile/ ~/.config/
 sudo cp -r flameshot/ ~/.config/
+sudo cp "group-name" /usr/local/bin
 
 # Install qtile
 cd /opt/qtile
