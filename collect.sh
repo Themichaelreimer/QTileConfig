@@ -3,6 +3,7 @@ cp -r ~/.config/rofi .
 cp -r ~/.config/flameshot .
 cp -r ~/.config/kitty .
 cp -r ~/.config/qtile .
+cp -r ~/.config/picom .
 cp /opt/qtile/requirements.txt .
 cp /opt/qtile/entry.sh .
 cp /usr/share/xsessions/qtile.desktop .
