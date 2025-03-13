@@ -4,7 +4,7 @@
 sudo apt install python3 python3-pip python3-venv kitty rofi flameshot picom network-manager
 
 # Setup services
-sudo systemctl start NetwokrManager
+sudo systemctl start NetworkManager
 sudo systemctl enable NetworkManager
 
 # Copy files to necessary places

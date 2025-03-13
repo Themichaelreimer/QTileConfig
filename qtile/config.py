@@ -24,6 +24,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import os
 from libqtile import bar, layout, qtile, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
@@ -35,9 +36,10 @@ browser = "/usr/bin/firefox"
 files = "/usr/bin/nautilus -w"
 WALLPAPER = os.environ.get("WALLPAPER", f"{os.environ.get('HOME')}/.wallpaper")
 
-#@hook.subscribe.startup
+@hook.subscribe.startup
 def run_every_startup():
-    set_screen_layout()
+    lazy.spawn("nm-applet")
+    #set_screen_layout()
 
 #@hook.subscribe.resume
 def on_resume():
@@ -127,7 +129,6 @@ for vt in range(1, 8):
 
 
 groups = [Group(i) for i in "1234567890"]
-groups[-1].label = "λ:Terminal"
 
 for i in groups:
     keys.extend(
@@ -170,7 +171,7 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font="CaskaydiaCove Nerd Font",
+    font="BigBlueTermPlusNerdFont",
     fontsize=12,
     padding=3,
 )
