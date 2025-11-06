@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Qtile(venv)
 Comment=Qtile Session Within Venv
-Exec=/opt/qtile/entry.sh start
+Exec=/opt/qtile/entry.sh
 Type=Application
 Keywords=wm;tiling

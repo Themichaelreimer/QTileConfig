@@ -30,15 +30,24 @@ from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
+from qtile_extras import widget as extra_widgets
+from qtile_extras.layout import decorations
+
 mod = "mod4"
 terminal = "/usr/bin/kitty"
 browser = "/usr/bin/firefox"
 files = "/usr/bin/nautilus -w"
-WALLPAPER = os.environ.get("WALLPAPER", f"{os.environ.get('HOME')}/.wallpaper")
+WALLPAPER = os.environ.get("WALLPAPER", f"{os.environ.get('HOME')}/wallpaper.jpg")
+
+RED = "ff3333"
+DARKEST_BLUE = "0f1419"
+DARK_BLUE = "243340"
+LIGHT_BLUE = "36a3d9"
 
 @hook.subscribe.startup
 def run_every_startup():
     lazy.spawn("nm-applet")
+    lazy.spawn("picom -b --backend glx --config ~/QTileConfig/picom/picom.conf")
     #set_screen_layout()
 
 #@hook.subscribe.resume
@@ -60,50 +69,40 @@ keys = [
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
     # Switch between windows
-    Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
-    Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
-    Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
-    Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
+    Key([mod], "left", lazy.layout.left(), desc="Move focus to left"),
+    Key([mod], "right", lazy.layout.right(), desc="Move focus to right"),
+    Key([mod], "down", lazy.layout.down(), desc="Move focus down"),
+    Key([mod], "up", lazy.layout.up(), desc="Move focus up"),
     Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
-    Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
-    Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
-    Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
-    Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
+    Key([mod, "control"], "left", lazy.layout.shuffle_left(), desc="Move window to the left"),
+    Key([mod, "control"], "right", lazy.layout.shuffle_right(), desc="Move window to the right"),
+    Key([mod, "control"], "down", lazy.layout.shuffle_down(), desc="Move window down"),
+    Key([mod, "control"], "up", lazy.layout.shuffle_up(), desc="Move window up"),
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
-    Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-    Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
-    Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
-    Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
+    Key([mod, "shift"], "left", lazy.layout.grow_left(), desc="Grow window to the left"),
+    Key([mod, "shift"], "right", lazy.layout.grow_right(), desc="Grow window to the right"),
+    Key([mod, "shift"], "down", lazy.layout.grow_down(), desc="Grow window down"),
+    Key([mod, "shift"], "up", lazy.layout.grow_up(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
-    # Toggle between split and unsplit sides of stack.
-    # Split = all windows displayed
-    # Unsplit = 1 window displayed, like Max layout, but still with
-    # multiple stack panes
-    Key(
-        [mod, "shift"],
-        "Return",
-        lazy.layout.toggle_split(),
-        desc="Toggle between split and unsplit sides of stack",
-    ),
     Key([mod], "Return", lazy.spawn("rofi -show drun"), desc="Launch Rofi"),
-    #Key([mod, "shift"], "Return", lazy.spawn("rofi -show run"), desc="Run command with Rofi"),
+    Key([mod, "shift"], "Return", lazy.spawn("rofi -show run"), desc="Run command with Rofi"),
     Key([mod], "t", lazy.spawn(terminal), desc="Launch terminal"),
     Key([mod], "b", lazy.spawn(browser), desc="Launch browser"),
-    Key([mod], "f", lazy.spawn(files), desc="Show files"),
+    #Key([mod], "f", lazy.spawn(files), desc="Show files"),
     # Toggle between different layouts as defined below
-    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+    #Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "shift"], "b", lazy.hide_show_bar(), desc="Toggle bar"),
     Key(
-        [mod, "shift"],
+        [mod, ],
         "f",
         lazy.window.toggle_fullscreen(),
         desc="Toggle fullscreen on the focused window",
     ),
-    Key([mod, "shift"], "T", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
+    Key([mod, "shift"], "f", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl -- set-sink-volume 0 +10%"), desc="Raise volume"),
@@ -155,11 +154,17 @@ for i in groups:
     )
 
 layouts = [
-    layout.Columns(margin=2, border_focus=["#aaaaaa", "#333333"], border_normal=["555555","333333"], border_width=2),
-    layout.Max(),
+    #layout.Columns(margin=2, border_focus=["#aaaaaa", "#333333"], border_normal=["555555","333333"], border_width=2),
+    
+    #layout.Max(),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
-    # layout.Bsp(),
+    layout.Bsp(
+        border_width=4, 
+        margin=4, 
+        border_focus=decorations.ScreenGradientBorder(colours=["fc5f4c","ffd451"]),
+        border_normal=decorations.ScreenGradientBorder(colours=["54715f","2c364f"])
+    ),
     # layout.Matrix(),
     # layout.MonadTall(),
     # layout.MonadWide(),
@@ -171,17 +176,11 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font="BigBlueTermPlusNerdFont",
-    fontsize=12,
+    font="ProFontWindows Nerd Font",
+    fontsize=26,
     padding=3,
 )
 extension_defaults = widget_defaults.copy()
-
-RED = "ff3333"
-DARKEST_BLUE = "0f1419"
-DARK_BLUE = "243340"
-LIGHT_BLUE = "36a3d9"
-
 def get_bar():
     return bar.Bar(
         [
@@ -215,6 +214,12 @@ def get_bar():
                 volume_up_command="pactl -- set-sink-volume 0 +10%",
                 volume_down_command="pactl -- set-sink-volume 0 -10%",
             ),
+            #extra_widgets.PulseVolumeExtra(
+            #    mode="bar",
+            #    volume_app="pavucontrol",
+            #    offsetx=0,
+            #    offsety=0
+            #),
             widget.QuickExit(default_text="[ X ]", foreground=RED),
         ],
         24,
@@ -223,7 +228,7 @@ def get_bar():
         highlight_color="399ee6",
         reserve=True,
         border_width=[0, 0, 0, 0],  # Draw top and bottom borders
-        border_color=["eeeeee","dddddd","cccccc","bbbbbb",]  # Borders are magenta
+        border_color=["333","345","348","345",]  # Borders are magenta
     ) 
 
 screens = [

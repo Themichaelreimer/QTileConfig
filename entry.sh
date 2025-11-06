@@ -4,4 +4,4 @@
 # run Qtile within a virtualenv
 
 source /opt/qtile/venv/bin/activate
-python /opt/qtile/venv/bin/qtile $*
+python /opt/qtile/venv/bin/qtile start
